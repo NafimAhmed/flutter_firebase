@@ -2,6 +2,8 @@
 
 
 
+import 'package:careturor/update.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,9 +12,14 @@ class TaskDetail extends StatelessWidget{
 
   final String textTitle;
   final String textDetail;
+  final String status;
   final String id;
 
-  const TaskDetail({super.key, required this.textTitle, required this.textDetail, required this.id});
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  DatabaseReference ref = FirebaseDatabase.instance.ref("User_profile");
+
+
+   TaskDetail({super.key, required this.textTitle, required this.textDetail, required this.id, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ class TaskDetail extends StatelessWidget{
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: InkWell(
                     onTap: (){
-
+                      delete(context);
                     },
                     child: Icon(Icons.delete),
                   ),
@@ -43,6 +50,15 @@ class TaskDetail extends StatelessWidget{
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: InkWell(
                     onTap: (){
+
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  UpdateTask(textTitle: textTitle, textDetail: textDetail, id: id)
+                          )
+                      );
 
                     },
                     child: Icon(Icons.edit),
@@ -111,6 +127,9 @@ class TaskDetail extends StatelessWidget{
 
           onPressed: (){
 
+            uploadDone(context);
+
+
             // Navigator.push(
             //     context,
             //     MaterialPageRoute(
@@ -120,12 +139,12 @@ class TaskDetail extends StatelessWidget{
             // );
 
           },
-          label: Text("Task Done"),
+          label: status!="true"?Text("Mark as done"):Text("Task is done"),
           hoverElevation: 100,
           icon: Icon(Icons.check_circle),
-          splashColor: Colors.amber,
+          splashColor: status!="true"?Colors.amber:Colors.grey,
 
-          backgroundColor: Colors.green,
+          backgroundColor: status!="true"?Colors.green:Colors.grey,
         ),
       ),
 
@@ -134,5 +153,23 @@ class TaskDetail extends StatelessWidget{
 
     );
   }
+
+  Future<void> uploadDone(var context) async {
+    await ref.child("01797609439").child("profile").child("${id}").update({
+
+      "TaskStatus": true,
+
+    }).then((value) {
+      Navigator.pop(context);
+    });
+  }
+
+  Future<void> delete(var context) async {
+    await ref.child("01797609439").child("profile").child("${id}").remove().then((value) {
+      Navigator.pop(context);
+    });
+  }
+
+
 
 }

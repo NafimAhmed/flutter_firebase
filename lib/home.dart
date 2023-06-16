@@ -66,6 +66,7 @@ class Home extends StatelessWidget{
                                         textTitle: "${snapshot.child("TaskTitle").value}",
                                         textDetail: "${snapshot.child("TaskDetail").value}",
                                         id: "${snapshot.key}",
+                                        status: "${snapshot.child("TaskStatus").value}",
                                       )
                               )
                           );
