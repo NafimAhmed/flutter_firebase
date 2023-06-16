@@ -8,6 +8,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatelessWidget{
 
@@ -52,7 +53,16 @@ class Home extends StatelessWidget{
                     size: 40,
 
                   ),
-                        title: Text("${snapshot.child("TaskTitle").value}"),
+                        title: Text("${snapshot.child("TaskTitle").value}",
+
+                          maxLines: 1,
+
+                          style: GoogleFonts.openSans(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                          ),
+
+                        ),
                         subtitle: Text("${snapshot.child("TaskDetail").value}",
                           maxLines: 1,
                         ),
