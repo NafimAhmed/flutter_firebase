@@ -6,6 +6,7 @@ import 'package:careturor/update.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TaskDetail extends StatelessWidget{
@@ -52,13 +53,12 @@ class TaskDetail extends StatelessWidget{
                     onTap: (){
 
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  UpdateTask(textTitle: textTitle, textDetail: textDetail, id: id)
-                          )
-                      );
+
+                      Get.to(
+                          UpdateTask(textTitle: textTitle, textDetail: textDetail, id: id),
+                          duration: Duration(milliseconds: 100), //duration of transitions, default 1 sec
+                          transition: Transition.rightToLeft );
+
 
                     },
                     child: Icon(Icons.edit),

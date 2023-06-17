@@ -8,6 +8,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatelessWidget{
@@ -68,18 +69,18 @@ class Home extends StatelessWidget{
                         ),
                         onTap: (){
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      TaskDetail(
-                                        textTitle: "${snapshot.child("TaskTitle").value}",
-                                        textDetail: "${snapshot.child("TaskDetail").value}",
-                                        id: "${snapshot.key}",
-                                        status: "${snapshot.child("TaskStatus").value}",
-                                      )
-                              )
-                          );
+
+
+                          Get.to(TaskDetail(
+                                          textTitle: "${snapshot.child("TaskTitle").value}",
+                                          textDetail: "${snapshot.child("TaskDetail").value}",
+                                          id: "${snapshot.key}",
+                                          status: "${snapshot.child("TaskStatus").value}",
+                                        ),
+                              duration: Duration(milliseconds: 100), //duration of transitions, default 1 sec
+                              transition: Transition.rightToLeft );
+
+
 
                         },
                       );
@@ -136,13 +137,11 @@ class Home extends StatelessWidget{
 
           onPressed: (){
 
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        AddTask()
-                )
-            );
+
+
+            Get.to(AddTask(),
+                duration: Duration(milliseconds: 100), //duration of transitions, default 1 sec
+                transition: Transition.rightToLeft );
 
           },
           label: Text("Add Task"),
